@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { getProductById } from '@/data/products';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,26 +43,40 @@ export default function EmailLanding() {
     setIsSubmitting(true);
     
     try {
-      // Creating email content
-      const emailSubject = encodeURIComponent("طلب جديد: ماكينة حلاقة وايكيل");
-      const emailBody = encodeURIComponent(`
-        طلب جديد!
-        
-        المنتج: ${product?.arabicTitle}
-        السعر: ${product?.discountPrice} ر.س
-        
-        معلومات العميل:
-        الاسم: ${values.name}
-        رقم الهاتف: ${values.phone}
-        المدينة: ${values.city}
-        
-        تم إرسال هذا الطلب من موقع المتجر الإلكتروني.
-      `);
+      // Create email content for sending directly
+      const orderData = {
+        product: product?.arabicTitle,
+        price: product?.discountPrice + " ر.س",
+        customerName: values.name,
+        customerPhone: values.phone,
+        customerCity: values.city,
+        orderDate: new Date().toISOString(),
+      };
       
-      // Open the user's default email client with pre-filled content
-      window.open(`mailto:ediaybimohammed@gmail.com?subject=${emailSubject}&body=${emailBody}`);
+      // Send email directly using EmailJS or similar service
+      // This is a direct HTTP POST request that will send the email
+      // without requiring the user to open their email client
+      const response = await fetch("https://formsubmit.co/ediaybimohammed@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: values.name,
+          phone: values.phone,
+          city: values.city,
+          product: product?.arabicTitle,
+          price: product?.discountPrice + " ر.س",
+          _subject: "طلب جديد: ماكينة حلاقة وايكيل",
+        }),
+      });
       
-      // Redirect to confirmation page
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+      
+      // Redirect to the thank you page
       navigate('/order-confirmation');
       
     } catch (error) {
