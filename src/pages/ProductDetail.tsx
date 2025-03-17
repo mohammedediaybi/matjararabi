@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Star, ArrowRight, Check, Share, Heart, ShoppingCart } from 'lucide-react';
+import { Star, ArrowRight, Check, Share, Heart, ShoppingCart, Truck } from 'lucide-react';
 import { getProductById } from '@/data/products';
 import { useCartStore } from '@/utils/cartStore';
 import Navbar from '@/components/Navbar';
