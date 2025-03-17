@@ -109,13 +109,13 @@ export const products: Product[] = [
     price: 499,
     discountPrice: 349,
     images: [
-      "public/lovable-uploads/faebbc49-84c0-4c2a-93c9-bae05ab422e1.png",
-      "public/lovable-uploads/0f6c80d9-f221-4004-b228-48c35d1a789c.png",
-      "public/lovable-uploads/f1456567-eea2-4b49-86d5-c91e08fdcc74.png",
-      "public/lovable-uploads/71ccad2f-23ce-44cc-b4ee-d9c91aa698d1.png",
-      "public/lovable-uploads/18aba8bc-7ab3-4257-85f2-2d0012f87092.png",
-      "public/lovable-uploads/ab8bf159-5ea1-44b4-8f62-0bdc2fc7d0d9.png",
-      "public/lovable-uploads/aa7be35d-5405-4a17-9936-42a035a314fd.png"
+      "/lovable-uploads/e544fcfb-8ed2-4868-ba25-c551f9a5e337.png",
+      "/lovable-uploads/a74baa5d-2aa3-45b0-8c3a-a0f4477ef252.png",
+      "/lovable-uploads/70d42d0d-5af2-4ecd-a780-9267109f4eed.png",
+      "/lovable-uploads/fdb33a93-2de7-47b3-aacd-125686543f15.png",
+      "/lovable-uploads/bd49358b-d45e-43e6-9442-a2c04a666e89.png",
+      "/lovable-uploads/8eb4cc83-b27d-42e3-8732-c5e066d4e4bc.png",
+      "/lovable-uploads/cd9786b7-5f09-4014-85b6-380fe38bac4c.png"
     ],
     category: "Beauty & Personal Care",
     rating: 4.9,

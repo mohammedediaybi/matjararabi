@@ -65,8 +65,8 @@ export default {
 				}
 			},
 			fontFamily: {
-				sans: ['IBM Plex Sans Arabic', 'sans-serif'],
-				display: ['Aref Ruqaa', 'serif'],
+				sans: ['Tajawal', 'sans-serif'],
+				display: ['Noto Kufi Arabic', 'serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
