@@ -27,10 +27,6 @@ export default function ImageGallery({ images, productName }: ImageGalleryProps)
           });
           resolve();
         };
-        img.onerror = () => {
-          console.error(`Failed to load image: ${src}`);
-          resolve(); // Still resolve to continue with other images
-        };
       });
     });
     
@@ -58,17 +54,13 @@ export default function ImageGallery({ images, productName }: ImageGalleryProps)
             className="w-full h-full"
           >
             <div className={cn(
-              "absolute inset-0 transition-opacity duration-300 flex items-center justify-center",
+              "absolute inset-0 transition-opacity duration-300",
               !loaded[selectedIndex] && "image-loading"
             )}>
               <img
                 src={images[selectedIndex]}
                 alt={`${productName} - صورة ${selectedIndex + 1}`}
                 className="w-full h-full object-contain"
-                onError={(e) => {
-                  console.error(`Error loading image: ${images[selectedIndex]}`);
-                  e.currentTarget.src = '/placeholder.svg';
-                }}
               />
             </div>
           </motion.div>
@@ -111,10 +103,6 @@ export default function ImageGallery({ images, productName }: ImageGalleryProps)
                 src={image}
                 alt={`${productName} - صورة مصغرة ${index + 1}`}
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  console.error(`Error loading thumbnail: ${image}`);
-                  e.currentTarget.src = '/placeholder.svg';
-                }}
               />
             </div>
           </button>

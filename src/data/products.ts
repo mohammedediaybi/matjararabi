@@ -99,36 +99,6 @@ export const products: Product[] = [
         arabicValues: ["أسود", "أحمر", "أزرق"],
       },
     ],
-  },
-  {
-    id: "4",
-    title: "SOPANVER Vacuum Beard Trimmer with LED Display",
-    arabicTitle: "ماكينة حلاقة اللحية بتقنية الشفط وشاشة LED من سوبانفر",
-    description: "Professional vacuum beard trimmer with 20 precision length settings. Built-in powerful vacuum system collects hair while trimming. Features LED display, dual speed modes, IPX6 waterproof design, and USB-C charging. Perfect for precise beard styling with minimal cleanup.",
-    arabicDescription: "ماكينة حلاقة اللحية احترافية بنظام شفط مع 20 إعداد دقيق للطول. نظام شفط قوي مدمج يجمع الشعر أثناء التشذيب. تتميز بشاشة LED، ووضعين للسرعة، وتصميم مقاوم للماء IPX6، وشحن USB-C. مثالية لتصفيف اللحية بدقة مع الحد الأدنى من التنظيف.",
-    price: 499,
-    discountPrice: 349,
-    images: [
-      "/lovable-uploads/e544fcfb-8ed2-4868-ba25-c551f9a5e337.png",
-      "/lovable-uploads/a74baa5d-2aa3-45b0-8c3a-a0f4477ef252.png",
-      "/lovable-uploads/70d42d0d-5af2-4ecd-a780-9267109f4eed.png",
-      "/lovable-uploads/fdb33a93-2de7-47b3-aacd-125686543f15.png",
-      "/lovable-uploads/bd49358b-d45e-43e6-9442-a2c04a666e89.png",
-      "/lovable-uploads/8eb4cc83-b27d-42e3-8732-c5e066d4e4bc.png",
-      "/lovable-uploads/cd9786b7-5f09-4014-85b6-380fe38bac4c.png"
-    ],
-    category: "Beauty & Personal Care",
-    rating: 4.9,
-    reviews: 1854,
-    colors: ["#242424"],
-    options: [
-      {
-        name: "Comb Type",
-        arabicName: "نوع المشط",
-        values: ["Short Hair Comb", "Long Hair Comb", "Complete Set"],
-        arabicValues: ["مشط الشعر القصير", "مشط الشعر الطويل", "المجموعة الكاملة"],
-      },
-    ],
   }
 ];
 
