@@ -11,6 +11,7 @@ import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import ProductLanding from "./pages/ProductLanding";
 import EmailLanding from "./pages/EmailLanding";
+import OrderConfirmation from "./pages/OrderConfirmation";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/cart" element={<Cart />} />
           <Route path="/product-landing" element={<ProductLanding />} />
           <Route path="/email-landing" element={<EmailLanding />} />
+          <Route path="/order-confirmation" element={<OrderConfirmation />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

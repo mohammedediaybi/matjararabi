@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { getProductById } from '@/data/products';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,7 +8,6 @@ import { ChevronRight, CheckCircle, Star, Truck, ShoppingBag, Mail } from 'lucid
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -23,10 +21,6 @@ const formSchema = z.object({
   city: z.string().min(2, {
     message: "يرجى إدخال اسم المدينة",
   }),
-  address: z.string().min(5, {
-    message: "يرجى إدخال عنوان مفصل",
-  }),
-  notes: z.string().optional(),
 });
 
 export default function EmailLanding() {
@@ -40,8 +34,6 @@ export default function EmailLanding() {
       name: "",
       phone: "",
       city: "",
-      address: "",
-      notes: "",
     },
   });
 
@@ -49,9 +41,6 @@ export default function EmailLanding() {
     setIsSubmitting(true);
     
     try {
-      // We're going to simulate sending an email notification
-      // In a real application, this would be handled by a backend service
-
       // Creating email content
       const emailSubject = encodeURIComponent("طلب جديد: ماكينة حلاقة وايكيل");
       const emailBody = encodeURIComponent(`
@@ -64,8 +53,6 @@ export default function EmailLanding() {
         الاسم: ${values.name}
         رقم الهاتف: ${values.phone}
         المدينة: ${values.city}
-        العنوان: ${values.address}
-        ملاحظات: ${values.notes || "لا توجد ملاحظات"}
         
         تم إرسال هذا الطلب من موقع المتجر الإلكتروني.
       `);
@@ -73,15 +60,8 @@ export default function EmailLanding() {
       // Open the user's default email client with pre-filled content
       window.open(`mailto:ediaybimohammed@gmail.com?subject=${emailSubject}&body=${emailBody}`);
       
-      // Display success message
-      toast.success("تم إرسال طلبك بنجاح! سنتصل بك قريبًا.", {
-        duration: 5000,
-      });
-      
-      // Redirect to product page after a short delay
-      setTimeout(() => {
-        navigate(`/product/${product?.id}`);
-      }, 2000);
+      // Redirect to confirmation page
+      navigate('/order-confirmation');
       
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -234,59 +214,6 @@ export default function EmailLanding() {
         </div>
       </div>
       
-      {/* Technical Specs */}
-      <div className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center text-gray-800">المواصفات التقنية</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold mb-4 text-green-600 border-b pb-2">معلومات البطارية</h3>
-              <ul className="space-y-3">
-                <li className="flex justify-between">
-                  <span className="font-bold">سعة البطارية:</span>
-                  <span>1400 مللي أمبير</span>
-                </li>
-                <li className="flex justify-between">
-                  <span className="font-bold">وقت التشغيل:</span>
-                  <span>90 دقيقة</span>
-                </li>
-                <li className="flex justify-between">
-                  <span className="font-bold">وقت الشحن:</span>
-                  <span>ساعتين</span>
-                </li>
-                <li className="flex justify-between">
-                  <span className="font-bold">طريقة الشحن:</span>
-                  <span>USB Type-C</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold mb-4 text-green-600 border-b pb-2">خصائص المنتج</h3>
-              <ul className="space-y-3">
-                <li className="flex justify-between">
-                  <span className="font-bold">درجة مقاومة الماء:</span>
-                  <span>IPX6</span>
-                </li>
-                <li className="flex justify-between">
-                  <span className="font-bold">نطاق الطول:</span>
-                  <span>(1-10مم + 10-20مم)</span>
-                </li>
-                <li className="flex justify-between">
-                  <span className="font-bold">الأبعاد:</span>
-                  <span>19 × 5 سم</span>
-                </li>
-                <li className="flex justify-between">
-                  <span className="font-bold">محتويات العلبة:</span>
-                  <span>الجهاز، مشطين قابلين للتعديل، فرشاة تنظيف، كابل USB</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      
       {/* Order Form Section */}
       <div className="py-16 bg-gradient-to-b from-green-50 to-white">
         <div className="container mx-auto px-4">
@@ -314,8 +241,8 @@ export default function EmailLanding() {
                 <div className="flex items-center">
                   <Mail className="w-6 h-6 text-green-600 ml-3" />
                   <div>
-                    <h3 className="font-bold text-lg">تأكيد الطلب عبر البريد الإلكتروني</h3>
-                    <p className="text-gray-600">سيتم إرسال تفاصيل الطلب إلى البائع مباشرة</p>
+                    <h3 className="font-bold text-lg">تأكيد الطلب عبر الهاتف</h3>
+                    <p className="text-gray-600">سيتصل بك أحد موظفينا في أقرب وقت لتأكيد طلبك</p>
                   </div>
                 </div>
               </div>
@@ -368,38 +295,6 @@ export default function EmailLanding() {
                           <FormLabel>المدينة</FormLabel>
                           <FormControl>
                             <Input placeholder="أدخل اسم مدينتك" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="address"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>العنوان</FormLabel>
-                          <FormControl>
-                            <Input placeholder="أدخل عنوانك بالتفصيل" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="notes"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>ملاحظات إضافية (اختياري)</FormLabel>
-                          <FormControl>
-                            <Textarea 
-                              placeholder="أي معلومات إضافية ترغب في إضافتها للطلب" 
-                              className="resize-none" 
-                              {...field} 
-                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
