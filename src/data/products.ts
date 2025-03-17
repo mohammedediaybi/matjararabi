@@ -129,6 +129,39 @@ export const products: Product[] = [
         arabicValues: ["مشط الشعر القصير", "مشط الشعر الطويل", "المجموعة الكاملة"],
       },
     ],
+  },
+  {
+    id: "5",
+    title: "WAIKIL Vacuum Beard Trimmer with Precision Wheel",
+    arabicTitle: "ماكينة حلاقة اللحية بتقنية الشفط وعجلة دقيقة من وايكيل",
+    description: "Advanced vacuum beard trimmer with dual motor design for efficient hair suction. Features precision wheel for 20 length settings (1-20mm), IPX6 waterproof rating, and USB-C charging. 1400mA battery provides 90 minutes of runtime with 2-hour charging time. Includes adjustable combs, cleaning brush, and more.",
+    arabicDescription: "ماكينة حلاقة اللحية متطورة بتصميم محرك مزدوج لشفط الشعر بكفاءة. تتميز بعجلة دقيقة لـ 20 إعداد للطول (1-20 مم)، وتصنيف مقاوم للماء IPX6، وشحن USB-C. بطارية 1400 مللي أمبير توفر 90 دقيقة من وقت التشغيل مع وقت شحن ساعتين. تشمل أمشاط قابلة للتعديل، فرشاة تنظيف، والمزيد.",
+    price: 599,
+    discountPrice: 399,
+    images: [
+      "/lovable-uploads/1c4c184a-b715-4876-9dfb-abb0d93dd8a8.png",
+      "/lovable-uploads/7ce31afc-75c1-4eb1-849a-112bb1ca1f22.png",
+      "/lovable-uploads/9e525e80-2957-428c-9260-66b6ea94ff3b.png",
+      "/lovable-uploads/47a4cdc2-f6c7-4f0a-b751-6bb273ad0d2d.png",
+      "/lovable-uploads/1377ece2-1f12-4ec6-9579-5d3b76f151d1.png",
+      "/lovable-uploads/af61d571-199e-4fa8-96d4-ad56988806a4.png",
+      "/lovable-uploads/5691fe48-4330-4be1-a4ba-ec561b6fbea6.png",
+      "/lovable-uploads/c3e2c443-79a3-46c4-aa49-6b0eef33fd8e.png",
+      "/lovable-uploads/0a8eb896-1dcd-45ad-a61f-b9811594ceab.png",
+      "/lovable-uploads/95c1f13d-57ed-4129-b086-4f87b8dfeea9.png"
+    ],
+    category: "Beauty & Personal Care",
+    rating: 4.8,
+    reviews: 2103,
+    colors: ["#242424", "#00FF00"],
+    options: [
+      {
+        name: "Comb Type",
+        arabicName: "نوع المشط",
+        values: ["Standard Set", "Premium Set"],
+        arabicValues: ["المجموعة القياسية", "المجموعة الممتازة"],
+      },
+    ],
   }
 ];
 
