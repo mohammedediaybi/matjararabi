@@ -4,12 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { motion } from 'framer-motion';
-import { ChevronRight, CheckCircle, Star, Truck, ShoppingBag, Mail } from 'lucide-react';
+import { ChevronRight, CheckCircle, Star, Truck, ShoppingBag, Mail, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import ImageGallery from '@/components/ImageGallery';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -154,62 +155,147 @@ export default function EmailLanding() {
             </motion.div>
             
             <motion.div 
-              className="md:w-1/2 flex justify-center"
+              className="md:w-1/2"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <img 
-                src={product.images[0]} 
-                alt={product.arabicTitle} 
-                className="max-w-full h-auto rounded-lg shadow-lg"
-              />
+              <ImageGallery images={product.images} productName={product.arabicTitle} />
             </motion.div>
           </div>
         </div>
       </div>
       
-      {/* Product Features */}
-      <div className="py-16 bg-white">
+      {/* Product Details */}
+      <div className="py-12 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center text-gray-800">مميزات فريدة لتجربة حلاقة مثالية</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">تفاصيل المنتج</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "تصميم محرك مزدوج",
-                description: "شفط فعال للشعر مع تقليل الفوضى أثناء الحلاقة",
-                image: product.images[6]
-              },
-              {
-                title: "مقاومة للماء IPX6",
-                description: "يمكن غسلها مباشرة تحت الماء لتنظيف سريع وسهل",
-                image: product.images[5]
-              },
-              {
-                title: "عجلة ضبط دقيقة",
-                description: "20 إعداد للطول لتصفيف دقيق للحية والشارب",
-                image: product.images[9]
-              }
-            ].map((feature, index) => (
-              <motion.div 
-                key={index}
-                className="bg-green-50 rounded-lg p-6 flex flex-col items-center text-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-              >
-                <div className="w-40 h-40 mb-4 overflow-hidden rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold mb-4 flex items-center text-gray-800">
+                <Info className="w-5 h-5 ml-2 text-green-600" />
+                المواصفات التقنية
+              </h3>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start">
+                  <span className="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs ml-2 mt-0.5">1</span>
+                  <span><strong>المحرك:</strong> محرك مزدوج بتقنية الشفط المتطورة</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs ml-2 mt-0.5">2</span>
+                  <span><strong>البطارية:</strong> 1400 مللي أمبير، تدوم لمدة 90 دقيقة</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs ml-2 mt-0.5">3</span>
+                  <span><strong>مدة الشحن:</strong> ساعتان فقط عبر USB-C</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs ml-2 mt-0.5">4</span>
+                  <span><strong>إعدادات الطول:</strong> 20 إعداد (1-20 مم) عبر عجلة دقيقة</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs ml-2 mt-0.5">5</span>
+                  <span><strong>مقاومة الماء:</strong> IPX6 (يمكن غسله بالماء الجاري)</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              {product.images.slice(4, 8).map((image, index) => (
+                <motion.div 
+                  key={index}
+                  className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 * index }}
+                >
                   <img 
-                    src={feature.image} 
-                    alt={feature.title} 
-                    className="w-full h-full object-cover"
+                    src={image} 
+                    alt={`ميزة ${index + 1}`} 
+                    className="w-full h-48 object-cover"
                   />
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-gray-800">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="bg-gray-50 p-6 rounded-lg mb-12">
+            <h3 className="text-xl font-bold mb-4 text-gray-800">محتويات العلبة</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex items-center bg-white p-4 rounded-lg shadow-sm">
+                <CheckCircle className="text-green-600 w-5 h-5 ml-3 flex-shrink-0" />
+                <span>ماكينة حلاقة وايكيل الأساسية</span>
+              </div>
+              <div className="flex items-center bg-white p-4 rounded-lg shadow-sm">
+                <CheckCircle className="text-green-600 w-5 h-5 ml-3 flex-shrink-0" />
+                <span>مجموعة أمشاط قابلة للتعديل</span>
+              </div>
+              <div className="flex items-center bg-white p-4 rounded-lg shadow-sm">
+                <CheckCircle className="text-green-600 w-5 h-5 ml-3 flex-shrink-0" />
+                <span>فرشاة تنظيف مخصصة</span>
+              </div>
+              <div className="flex items-center bg-white p-4 rounded-lg shadow-sm">
+                <CheckCircle className="text-green-600 w-5 h-5 ml-3 flex-shrink-0" />
+                <span>كابل شحن USB-C عالي الجودة</span>
+              </div>
+              <div className="flex items-center bg-white p-4 rounded-lg shadow-sm">
+                <CheckCircle className="text-green-600 w-5 h-5 ml-3 flex-shrink-0" />
+                <span>زيت تشحيم للشفرات</span>
+              </div>
+              <div className="flex items-center bg-white p-4 rounded-lg shadow-sm">
+                <CheckCircle className="text-green-600 w-5 h-5 ml-3 flex-shrink-0" />
+                <span>دليل المستخدم باللغة العربية</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex flex-col md:flex-row gap-6">
+            <motion.div 
+              className="md:w-1/2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <img 
+                src={product.images[2]} 
+                alt="استخدام المنتج" 
+                className="w-full h-auto rounded-lg shadow-md"
+              />
+            </motion.div>
+            <div className="md:w-1/2 bg-green-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold mb-4 text-gray-800">مميزات فريدة</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start">
+                  <CheckCircle className="text-green-600 w-5 h-5 ml-2 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-bold">نظام شفط متطور</p>
+                    <p className="text-gray-600">يجمع الشفاط المدمج 99% من الشعر أثناء الحلاقة، مما يجعل التنظيف بعد الحلاقة أمرًا سهلاً وسريعًا.</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="text-green-600 w-5 h-5 ml-2 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-bold">تصميم مريح للاستخدام</p>
+                    <p className="text-gray-600">مقبض مريح مصمم هندسيًا ليناسب راحة اليد، مما يتيح تحكمًا دقيقًا أثناء الحلاقة.</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="text-green-600 w-5 h-5 ml-2 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-bold">شفرات من الفولاذ المقاوم للصدأ</p>
+                    <p className="text-gray-600">شفرات حادة متينة تضمن حلاقة نظيفة دون سحب الشعر أو تهيج البشرة.</p>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="text-green-600 w-5 h-5 ml-2 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-bold">مؤشر LED للبطارية</p>
+                    <p className="text-gray-600">يعرض مستوى البطارية بدقة لتعرف متى تحتاج إلى إعادة شحن الجهاز.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -321,7 +407,7 @@ export default function EmailLanding() {
         </div>
       </div>
       
-      {/* Testimonials */}
+      {/* Testimonials Section */}
       <div className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center text-gray-800">ماذا يقول عملاؤنا</h2>
@@ -367,7 +453,7 @@ export default function EmailLanding() {
         </div>
       </div>
       
-      {/* Call to Action */}
+      {/* Call to Action Section */}
       <div className="py-16 bg-green-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">احصل على ماكينة حلاقة اللحية المتطورة الآن</h2>
@@ -386,7 +472,7 @@ export default function EmailLanding() {
         </div>
       </div>
       
-      {/* Footer */}
+      {/* Footer Section */}
       <footer className="bg-gray-800 text-white py-6">
         <div className="container mx-auto px-4 text-center">
           <p>© {new Date().getFullYear()} WAIKIL - جميع الحقوق محفوظة</p>
