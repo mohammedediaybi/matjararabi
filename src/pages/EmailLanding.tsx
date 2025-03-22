@@ -8,6 +8,7 @@ import Testimonials from '@/components/email-landing/Testimonials';
 import CallToAction from '@/components/email-landing/CallToAction';
 import Footer from '@/components/email-landing/Footer';
 import ImageGallery from '@/components/ImageGallery';
+import MainNavbar from '@/components/MainNavbar';
 import { motion } from 'framer-motion';
 
 export default function EmailLanding() {
@@ -19,6 +20,9 @@ export default function EmailLanding() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-background font-tajawal" dir="rtl">
+      {/* Main Navigation */}
+      <MainNavbar />
+      
       {/* Header */}
       <Header product={product} />
       

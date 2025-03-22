@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import EmailLanding from "./pages/EmailLanding";
 import OrderConfirmation from "./pages/OrderConfirmation";
+import DownloadJson from "./pages/DownloadJson";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Navigate to="/email-landing" replace />} />
           <Route path="/email-landing" element={<EmailLanding />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
+          <Route path="/download-json" element={<DownloadJson />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
