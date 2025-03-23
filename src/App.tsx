@@ -8,6 +8,7 @@ import EmailLanding from "./pages/EmailLanding";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import DownloadJson from "./pages/DownloadJson";
 import NotFound from "./pages/NotFound";
+import ProductTextEditor from "./pages/ProductTextEditor";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/email-landing" element={<EmailLanding />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/download-json" element={<DownloadJson />} />
+          <Route path="/product-text-editor" element={<ProductTextEditor />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

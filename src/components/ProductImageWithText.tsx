@@ -6,27 +6,31 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
+interface TextItem {
+  id: string;
+  content: string;
+  x: number;
+  y: number;
+  fontSize: number;
+  color: string;
+  isBold: boolean;
+  isItalic: boolean;
+}
+
 interface ProductImageWithTextProps {
   imageSrc: string;
   alt?: string;
   className?: string;
+  initialTexts?: TextItem[];
 }
 
 export default function ProductImageWithText({ 
   imageSrc, 
   alt = "صورة المنتج", 
-  className 
+  className,
+  initialTexts = []
 }: ProductImageWithTextProps) {
-  const [texts, setTexts] = useState<Array<{
-    id: string;
-    content: string;
-    x: number;
-    y: number;
-    fontSize: number;
-    color: string;
-    isBold: boolean;
-    isItalic: boolean;
-  }>>([]);
+  const [texts, setTexts] = useState<TextItem[]>(initialTexts);
   
   const [newText, setNewText] = useState('');
   const [fontSize, setFontSize] = useState(16);
@@ -59,7 +63,7 @@ export default function ProductImageWithText({
     setNewText('');
   };
   
-  const updateText = (id: string, updates: Partial<typeof texts[0]>) => {
+  const updateText = (id: string, updates: Partial<TextItem>) => {
     setTexts(prev => 
       prev.map(text => 
         text.id === id ? { ...text, ...updates } : text

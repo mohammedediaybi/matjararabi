@@ -7,7 +7,7 @@ import { Upload } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function ProductTextEditor() {
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<string | null>('public/lovable-uploads/def579a3-607f-4ed4-8894-44bb93fbd6e7.png');
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -51,7 +51,41 @@ export default function ProductTextEditor() {
         </div>
         
         {uploadedImage ? (
-          <ProductImageWithText imageSrc={uploadedImage} />
+          <ProductImageWithText 
+            imageSrc={uploadedImage} 
+            initialTexts={[
+              {
+                id: "1",
+                content: "ماكينة حلاقة متطورة",
+                x: 150,
+                y: 50,
+                fontSize: 22,
+                color: "#ffffff",
+                isBold: true,
+                isItalic: false
+              },
+              {
+                id: "2",
+                content: "تقنية متطورة لحلاقة مثالية",
+                x: 150,
+                y: 100,
+                fontSize: 18,
+                color: "#33ff33",
+                isBold: false,
+                isItalic: false
+              },
+              {
+                id: "3",
+                content: "خفيفة وسهلة الاستخدام",
+                x: 150,
+                y: 150,
+                fontSize: 16,
+                color: "#ffff00",
+                isBold: false,
+                isItalic: true
+              }
+            ]}
+          />
         ) : (
           <div className="border border-gray-200 rounded-lg h-64 flex items-center justify-center bg-gray-50">
             <p className="text-gray-500">قم بتحميل صورة لإضافة نص عليها</p>
