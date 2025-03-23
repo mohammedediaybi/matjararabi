@@ -35,6 +35,7 @@ type PageData = {
 
 export default function DownloadJson() {
   const [selectedPage, setSelectedPage] = useState<string>("");
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   const pages: PageData[] = [
     {
@@ -208,7 +209,8 @@ export default function DownloadJson() {
     }
     
     try {
-      toast.info("جاري إنشاء ملف PDF...");
+      setIsGeneratingPdf(true);
+      toast.info("جاري إنشاء ملف PDF... قد يستغرق هذا بضع ثوانٍ");
       
       const pageData = pages.find(page => page.id === selectedPage);
       if (!pageData) return;
@@ -232,35 +234,69 @@ export default function DownloadJson() {
               throw new Error("Could not access iframe content");
             }
             
+            const images = iframeContent.querySelectorAll('img');
+            images.forEach((img: HTMLImageElement) => {
+              if (img.src.startsWith('/')) {
+                img.src = `${baseUrl}${img.src}`;
+              }
+              img.setAttribute('data-html2canvas-ignore', 'false');
+              img.style.visibility = 'visible';
+            });
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
             const options = {
               margin: 10,
               filename: `${selectedPage}.pdf`,
               image: { type: 'jpeg', quality: 0.98 },
-              html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+              html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                allowTaint: true,
+                letterRendering: true,
+                logging: true,
+                imageTimeout: 15000,
+                ignoreElements: (element: Element) => {
+                  return false;
+                }
+              },
               jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
             const clonedBody = iframeContent.body.cloneNode(true) as HTMLElement;
             
+            clonedBody.style.width = '1200px';
+            clonedBody.style.margin = '0';
+            clonedBody.style.padding = '0';
+            
             html2pdf().from(clonedBody).set(options).save().then(() => {
               document.body.removeChild(iframe);
+              setIsGeneratingPdf(false);
               toast.success("تم تنزيل ملف PDF بنجاح");
+            }).catch((err: any) => {
+              console.error('Error saving PDF:', err);
+              document.body.removeChild(iframe);
+              setIsGeneratingPdf(false);
+              toast.error("حدث خطأ أثناء حفظ ملف PDF");
             });
-          }, 1500);
+          }, 2500);
         } catch (error) {
           console.error('Error creating PDF:', error);
           document.body.removeChild(iframe);
+          setIsGeneratingPdf(false);
           toast.error("حدث خطأ أثناء إنشاء ملف PDF");
         }
       };
       
       iframe.onerror = () => {
         document.body.removeChild(iframe);
+        setIsGeneratingPdf(false);
         toast.error("تعذر تحميل الصفحة لإنشاء PDF");
       };
       
     } catch (error) {
       console.error('Error setting up PDF creation:', error);
+      setIsGeneratingPdf(false);
       toast.error("حدث خطأ أثناء إعداد عملية إنشاء PDF");
     }
   };
@@ -335,10 +371,19 @@ export default function DownloadJson() {
               <Button 
                 onClick={handleDownloadAsPdf} 
                 className="w-full bg-red-600 hover:bg-red-700" 
-                disabled={!selectedPage}
+                disabled={!selectedPage || isGeneratingPdf}
               >
-                <FileText className="ml-2" size={16} />
-                تنزيل كملف PDF مع التصميم
+                {isGeneratingPdf ? (
+                  <>
+                    <span className="ml-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                    جاري إنشاء PDF...
+                  </>
+                ) : (
+                  <>
+                    <FileText className="ml-2" size={16} />
+                    تنزيل كملف PDF مع التصميم
+                  </>
+                )}
               </Button>
             </div>
           </div>
