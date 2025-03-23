@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Select, 
@@ -8,12 +7,12 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Download, Image } from "lucide-react";
+import { Download, Image, FileText } from "lucide-react";
 import MainNavbar from "@/components/MainNavbar";
 import Footer from "@/components/email-landing/Footer";
 import { toast } from "sonner";
+import html2pdf from 'html2pdf.js';
 
-// More standard format for page data
 type PageData = {
   id: string;
   name: string;
@@ -37,7 +36,6 @@ type PageData = {
 export default function DownloadJson() {
   const [selectedPage, setSelectedPage] = useState<string>("");
 
-  // Données des pages disponibles with standardized format
   const pages: PageData[] = [
     {
       id: "email-landing",
@@ -98,7 +96,6 @@ export default function DownloadJson() {
     }
   ];
 
-  // Fonction pour télécharger le JSON sélectionné
   const handleDownload = () => {
     if (!selectedPage) {
       toast.error("الرجاء اختيار صفحة أولاً");
@@ -108,7 +105,6 @@ export default function DownloadJson() {
     const pageData = pages.find(page => page.id === selectedPage);
     if (!pageData) return;
     
-    // Add additional metadata for better compatibility
     const exportData = {
       ...pageData,
       exportVersion: "2.0",
@@ -116,25 +112,21 @@ export default function DownloadJson() {
       format: "standard-page-format"
     };
     
-    // Création du fichier blob pour le téléchargement
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     
-    // Création d'un lien de téléchargement et déclenchement du téléchargement
     const a = document.createElement("a");
     a.href = url;
     a.download = `${selectedPage}.json`;
     document.body.appendChild(a);
     a.click();
     
-    // Nettoyage
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
     toast.success("تم تنزيل الملف بنجاح");
   };
 
-  // Fonction pour télécharger la page en PNG
   const handleDownloadAsPng = async () => {
     if (!selectedPage) {
       toast.error("الرجاء اختيار صفحة أولاً");
@@ -145,7 +137,6 @@ export default function DownloadJson() {
     if (!pageData) return;
     
     try {
-      // Créer un élément canvas pour dessiner le JSON
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       
@@ -154,34 +145,27 @@ export default function DownloadJson() {
         return;
       }
       
-      // Configurer le canvas
       canvas.width = 800;
       canvas.height = 1200;
       
-      // Fond blanc
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Configurer le style du texte
       ctx.fillStyle = '#000000';
       ctx.font = 'bold 24px Arial';
       ctx.textAlign = 'center';
       
-      // Dessiner le titre
       ctx.fillText(pageData.name, canvas.width / 2, 50);
       
-      // Dessiner la description
       ctx.font = '16px Arial';
       ctx.fillText(pageData.description, canvas.width / 2, 90);
       
-      // Dessiner une ligne de séparation
       ctx.strokeStyle = '#cccccc';
       ctx.beginPath();
       ctx.moveTo(50, 120);
       ctx.lineTo(canvas.width - 50, 120);
       ctx.stroke();
       
-      // Dessiner les informations de la page
       ctx.textAlign = 'left';
       ctx.font = 'bold 18px Arial';
       ctx.fillText('معلومات الصفحة:', 50, 160);
@@ -192,7 +176,6 @@ export default function DownloadJson() {
       ctx.fillText(`نوع: ${pageData.metadata.type}`, 50, 250);
       ctx.fillText(`إصدار: ${pageData.metadata.version}`, 50, 280);
       
-      // Dessiner les composants
       ctx.font = 'bold 18px Arial';
       ctx.fillText('المكونات:', 50, 330);
       
@@ -201,23 +184,84 @@ export default function DownloadJson() {
         ctx.fillText(comp, 50, 360 + (index * 30));
       });
       
-      // Convertir le canvas en image PNG
       const dataUrl = canvas.toDataURL('image/png');
       
-      // Télécharger l'image
       const a = document.createElement('a');
       a.href = dataUrl;
       a.download = `${selectedPage}.png`;
       document.body.appendChild(a);
       a.click();
       
-      // Nettoyage
       document.body.removeChild(a);
       
       toast.success("تم تنزيل الصورة بنجاح");
     } catch (error) {
       console.error('Error creating PNG:', error);
       toast.error("حدث خطأ أثناء إنشاء الصورة");
+    }
+  };
+
+  const handleDownloadAsPdf = async () => {
+    if (!selectedPage) {
+      toast.error("الرجاء اختيار صفحة أولاً");
+      return;
+    }
+    
+    try {
+      toast.info("جاري إنشاء ملف PDF...");
+      
+      const pageData = pages.find(page => page.id === selectedPage);
+      if (!pageData) return;
+      
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'absolute';
+      iframe.style.left = '-9999px';
+      iframe.style.width = '1200px';
+      iframe.style.height = '1600px';
+      document.body.appendChild(iframe);
+      
+      const baseUrl = window.location.origin;
+      iframe.src = `${baseUrl}/${pageData.route}`;
+      
+      iframe.onload = async () => {
+        try {
+          setTimeout(async () => {
+            const iframeContent = iframe.contentDocument || iframe.contentWindow?.document;
+            
+            if (!iframeContent) {
+              throw new Error("Could not access iframe content");
+            }
+            
+            const options = {
+              margin: 10,
+              filename: `${selectedPage}.pdf`,
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            const clonedBody = iframeContent.body.cloneNode(true) as HTMLElement;
+            
+            html2pdf().from(clonedBody).set(options).save().then(() => {
+              document.body.removeChild(iframe);
+              toast.success("تم تنزيل ملف PDF بنجاح");
+            });
+          }, 1500);
+        } catch (error) {
+          console.error('Error creating PDF:', error);
+          document.body.removeChild(iframe);
+          toast.error("حدث خطأ أثناء إنشاء ملف PDF");
+        }
+      };
+      
+      iframe.onerror = () => {
+        document.body.removeChild(iframe);
+        toast.error("تعذر تحميل الصفحة لإنشاء PDF");
+      };
+      
+    } catch (error) {
+      console.error('Error setting up PDF creation:', error);
+      toast.error("حدث خطأ أثناء إعداد عملية إنشاء PDF");
     }
   };
 
@@ -267,23 +311,34 @@ export default function DownloadJson() {
               </div>
             )}
             
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button 
-                onClick={handleDownload} 
-                className="flex-1 bg-green-600 hover:bg-green-700" 
-                disabled={!selectedPage}
-              >
-                <Download className="ml-2" size={16} />
-                تنزيل كملف JSON
-              </Button>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button 
+                  onClick={handleDownload} 
+                  className="flex-1 bg-green-600 hover:bg-green-700" 
+                  disabled={!selectedPage}
+                >
+                  <Download className="ml-2" size={16} />
+                  تنزيل كملف JSON
+                </Button>
+                
+                <Button 
+                  onClick={handleDownloadAsPng} 
+                  className="flex-1 bg-blue-600 hover:bg-blue-700" 
+                  disabled={!selectedPage}
+                >
+                  <Image className="ml-2" size={16} />
+                  تنزيل كصورة PNG
+                </Button>
+              </div>
               
               <Button 
-                onClick={handleDownloadAsPng} 
-                className="flex-1 bg-blue-600 hover:bg-blue-700" 
+                onClick={handleDownloadAsPdf} 
+                className="w-full bg-red-600 hover:bg-red-700" 
                 disabled={!selectedPage}
               >
-                <Image className="ml-2" size={16} />
-                تنزيل كصورة PNG
+                <FileText className="ml-2" size={16} />
+                تنزيل كملف PDF مع التصميم
               </Button>
             </div>
           </div>
