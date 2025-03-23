@@ -8,7 +8,7 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Image } from "lucide-react";
 import MainNavbar from "@/components/MainNavbar";
 import Footer from "@/components/email-landing/Footer";
 import { toast } from "sonner";
@@ -134,6 +134,93 @@ export default function DownloadJson() {
     toast.success("تم تنزيل الملف بنجاح");
   };
 
+  // Fonction pour télécharger la page en PNG
+  const handleDownloadAsPng = async () => {
+    if (!selectedPage) {
+      toast.error("الرجاء اختيار صفحة أولاً");
+      return;
+    }
+    
+    const pageData = pages.find(page => page.id === selectedPage);
+    if (!pageData) return;
+    
+    try {
+      // Créer un élément canvas pour dessiner le JSON
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      if (!ctx) {
+        toast.error("لا يمكن إنشاء صورة. Canvas غير مدعوم في متصفحك");
+        return;
+      }
+      
+      // Configurer le canvas
+      canvas.width = 800;
+      canvas.height = 1200;
+      
+      // Fond blanc
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Configurer le style du texte
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 24px Arial';
+      ctx.textAlign = 'center';
+      
+      // Dessiner le titre
+      ctx.fillText(pageData.name, canvas.width / 2, 50);
+      
+      // Dessiner la description
+      ctx.font = '16px Arial';
+      ctx.fillText(pageData.description, canvas.width / 2, 90);
+      
+      // Dessiner une ligne de séparation
+      ctx.strokeStyle = '#cccccc';
+      ctx.beginPath();
+      ctx.moveTo(50, 120);
+      ctx.lineTo(canvas.width - 50, 120);
+      ctx.stroke();
+      
+      // Dessiner les informations de la page
+      ctx.textAlign = 'left';
+      ctx.font = 'bold 18px Arial';
+      ctx.fillText('معلومات الصفحة:', 50, 160);
+      
+      ctx.font = '16px Arial';
+      ctx.fillText(`المعرف: ${pageData.id}`, 50, 190);
+      ctx.fillText(`المسار: ${pageData.route}`, 50, 220);
+      ctx.fillText(`نوع: ${pageData.metadata.type}`, 50, 250);
+      ctx.fillText(`إصدار: ${pageData.metadata.version}`, 50, 280);
+      
+      // Dessiner les composants
+      ctx.font = 'bold 18px Arial';
+      ctx.fillText('المكونات:', 50, 330);
+      
+      ctx.font = '16px Arial';
+      pageData.components.forEach((comp, index) => {
+        ctx.fillText(comp, 50, 360 + (index * 30));
+      });
+      
+      // Convertir le canvas en image PNG
+      const dataUrl = canvas.toDataURL('image/png');
+      
+      // Télécharger l'image
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `${selectedPage}.png`;
+      document.body.appendChild(a);
+      a.click();
+      
+      // Nettoyage
+      document.body.removeChild(a);
+      
+      toast.success("تم تنزيل الصورة بنجاح");
+    } catch (error) {
+      console.error('Error creating PNG:', error);
+      toast.error("حدث خطأ أثناء إنشاء الصورة");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-background font-tajawal flex flex-col" dir="rtl">
       <MainNavbar />
@@ -180,14 +267,25 @@ export default function DownloadJson() {
               </div>
             )}
             
-            <Button 
-              onClick={handleDownload} 
-              className="w-full bg-green-600 hover:bg-green-700" 
-              disabled={!selectedPage}
-            >
-              <Download className="ml-2" size={16} />
-              تنزيل البيانات بتنسيق JSON
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button 
+                onClick={handleDownload} 
+                className="flex-1 bg-green-600 hover:bg-green-700" 
+                disabled={!selectedPage}
+              >
+                <Download className="ml-2" size={16} />
+                تنزيل كملف JSON
+              </Button>
+              
+              <Button 
+                onClick={handleDownloadAsPng} 
+                className="flex-1 bg-blue-600 hover:bg-blue-700" 
+                disabled={!selectedPage}
+              >
+                <Image className="ml-2" size={16} />
+                تنزيل كصورة PNG
+              </Button>
+            </div>
           </div>
         </div>
       </div>
