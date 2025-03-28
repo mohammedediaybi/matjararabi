@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion';
-import { Star, Check, Truck, Clock, Shield, RefreshCw, Battery, Scissors } from 'lucide-react';
+import { Star, Check, Truck, Clock, Shield, RefreshCw, Battery, Scissors, DollarSign, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -38,10 +38,12 @@ export default function TrimMasterLanding() {
   });
 
   const images = [
-    "public/lovable-uploads/e60d8b6c-4b2a-4854-84ee-793561c6a0a0.png",
-    "/lovable-uploads/9e525e80-2957-428c-9260-66b6ea94ff3b.png",
-    "/lovable-uploads/c3e2c443-79a3-46c4-aa49-6b0eef33fd8e.png",
-    "/lovable-uploads/fdb33a93-2de7-47b3-aacd-125686543f15.png"
+    "/lovable-uploads/2a73b697-62b8-40de-88a1-ddbb0f60547c.png",
+    "/lovable-uploads/cb1df814-4b79-4ed5-b59b-3bfd7ba0a7cc.png",
+    "/lovable-uploads/36516a49-762c-4a23-80e3-3ab98bd6d0b2.png",
+    "/lovable-uploads/60e98e5c-4c44-4f50-b0db-e86b212f1560.png",
+    "/lovable-uploads/ac3cb792-4b9b-4861-9960-b57079f02000.png",
+    "/lovable-uploads/a4c199c0-2d56-4ed3-9d43-02ce0c388be9.png"
   ];
   
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -91,29 +93,28 @@ export default function TrimMasterLanding() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-gray-50 font-tajawal" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-b from-lime-50 to-gray-50 font-tajawal" dir="rtl">
       {/* Header Section */}
-      <header className="bg-black text-white py-2 text-center text-sm">
-        راضي أو استرجاع النقود خلال 30 يوم
+      <header className="bg-green-800 text-white py-2 text-center text-sm">
+        <div className="container mx-auto">
+          طلب مرتفع! المخزون محدود - استفد من الخصم اليوم
+        </div>
       </header>
       
       {/* Navigation */}
-      <nav className="bg-white py-4 shadow-sm">
+      <nav className="bg-white py-4 shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <div className="text-2xl font-bold">تريم ماستر</div>
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" className="relative">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-            </Button>
+          <div className="text-2xl font-bold text-green-700">تريم ماستر</div>
+          <div className="flex items-center space-x-4 space-x-reverse">
+            <div className="bg-lime-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+              موثوق ✓
+            </div>
           </div>
         </div>
       </nav>
       
       {/* Hero Section */}
-      <section className="py-12 bg-white">
+      <section className="py-8 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-8">
             {/* Product Images */}
@@ -140,18 +141,18 @@ export default function TrimMasterLanding() {
             
             {/* Product Details */}
             <div className="md:w-1/2">
-              <div className="text-xs text-gray-500 mb-2">+7500 عميل راضٍ على تريم ماستر</div>
+              <div className="text-xs text-gray-500 mb-2">+8500 عميل راضٍ على تريم ماستر</div>
               <h1 className="text-3xl font-bold mb-2">تريم ماستر | استمتع بحلاقة نظيفة، سريعة وسهلة.</h1>
               
               {/* Rating */}
               <div className="flex items-center mb-4">
                 <div className="flex text-amber-400 ml-2">
                   {[1, 2, 3, 4, 5].map(star => (
-                    <Star key={star} className="w-4 h-4 fill-amber-400" />
+                    <Star key={star} className={`w-4 h-4 ${star <= 4.5 ? "fill-amber-400" : ""}`} />
                   ))}
                 </div>
-                <span className="text-sm">ممتاز 4.8 | </span>
-                <span className="text-sm text-green-600 mr-1">✓ 700+ عملية شراء</span>
+                <span className="text-sm">ممتاز 4.5 | </span>
+                <span className="text-sm text-green-600 mr-1">✓ متجر موثوق</span>
               </div>
               
               {/* Price */}
@@ -164,28 +165,36 @@ export default function TrimMasterLanding() {
               </div>
               
               {/* Key Features */}
-              <div className="bg-green-50 rounded-lg p-4 mb-6">
-                <h2 className="text-xl font-bold mb-3">ماكينة حلاقة مبتكرة مع نظام شفط قوي</h2>
+              <div className="bg-lime-50 border border-lime-200 rounded-lg p-4 mb-6">
+                <h2 className="text-xl font-bold mb-3 text-green-800">ماكينة حلاقة مبتكرة مع نظام شفط قوي</h2>
                 <p className="mb-4">
-                  تتميز ماكينة حلاقة تريم ماستر بنظام شفط قوي يمتص جميع الشعيرات المقصوصة، مما يجعل عملية الحلاقة أكثر نظافة وراحة.
+                  هذه الماكينة المبتكرة مزودة بنظام شفط قوي يمتص جميع الشعيرات المقصوصة.
+                  بفضل تريم ماستر، سيبقى حوضك وأرضيتك نظيفين، دون الحاجة إلى التنظيف بعد الحلاقة!
                 </p>
                 <Button 
                   className="w-full py-6 text-lg font-bold bg-green-600 hover:bg-green-700"
                   onClick={() => document.getElementById('orderForm')?.scrollIntoView({ behavior: 'smooth' })}
                 >
-                  اطلب الآن واحصل على خصم 40%
+                  أضف إلى السلة
                 </Button>
+              </div>
+              
+              {/* Stock Status */}
+              <div className="flex items-center mb-6 text-amber-600">
+                <div className="w-full bg-amber-100 rounded-full h-2.5 mb-4 dark:bg-amber-200">
+                  <div className="bg-amber-500 h-2.5 rounded-full" style={{ width: '85%' }}></div>
+                </div>
+                <span className="text-sm font-medium mr-2">الطلب مرتفع! المخزون محدود</span>
               </div>
               
               {/* Payment Methods */}
               <div className="flex items-center justify-between mb-6">
                 <div className="text-xs text-gray-500">طرق الدفع المتاحة</div>
-                <div className="flex space-x-2">
-                  {/* Payment Icons */}
-                  <div className="h-6 w-10 bg-gray-200 rounded"></div>
-                  <div className="h-6 w-10 bg-gray-200 rounded"></div>
-                  <div className="h-6 w-10 bg-gray-200 rounded"></div>
-                  <div className="h-6 w-10 bg-gray-200 rounded"></div>
+                <div className="flex space-x-2 space-x-reverse">
+                  <div className="flex items-center justify-center h-6 w-10 bg-gray-200 rounded text-xs">
+                    <DollarSign className="w-4 h-4" />
+                  </div>
+                  <div className="h-6 w-10 bg-gray-200 rounded flex items-center justify-center text-xs">COD</div>
                 </div>
               </div>
             </div>
@@ -194,29 +203,50 @@ export default function TrimMasterLanding() {
       </section>
       
       {/* Product Description */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">ماكينة حلاقة مبتكرة مع نظام شفط قوي</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center text-green-800">ماكينة حلاقة مبتكرة مع نظام شفط قوي</h2>
+          
           <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
             <img 
-              src="/lovable-uploads/e60d8b6c-4b2a-4854-84ee-793561c6a0a0.png" 
+              src="/lovable-uploads/2a73b697-62b8-40de-88a1-ddbb0f60547c.png" 
               alt="تريم ماستر" 
               className="w-full h-auto"
             />
             <div className="p-6">
               <p className="text-lg mb-4">
                 هذه الماكينة المبتكرة مزودة بنظام شفط قوي يمتص جميع الشعيرات المقصوصة.
-                بفضل تريم ماستر، ستتمكن من الحلاقة بطريقة نظيفة ومريحة، دون الحاجة إلى تنظيف المكان بعد الحلاقة!
+                بفضل تريم ماستر، سيبقى حوضك وأرضيتك نظيفين، دون الحاجة إلى التنظيف بعد الحلاقة!
               </p>
             </div>
           </div>
           
           <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
             <img 
-              src="/lovable-uploads/47a4cdc2-f6c7-4f0a-b751-6bb273ad0d2d.png" 
-              alt="تريم ماستر أثناء الاستخدام" 
+              src="/lovable-uploads/ac3cb792-4b9b-4861-9960-b57079f02000.png" 
+              alt="تريم ماستر - عجلة الدقة" 
               className="w-full h-auto"
             />
+            <div className="p-6">
+              <h3 className="text-xl font-bold mb-2 text-green-800">عجلة دقيقة للضبط المثالي</h3>
+              <p className="text-lg">
+                العجلة الدقيقة تتيح لك 20 إعداد مختلف للطول (1-20 مم) للحصول على قصة مخصصة حسب رغبتك.
+              </p>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <img 
+              src="/lovable-uploads/cb1df814-4b79-4ed5-b59b-3bfd7ba0a7cc.png" 
+              alt="تريم ماستر - مقاومة للماء" 
+              className="w-full h-auto"
+            />
+            <div className="p-6">
+              <h3 className="text-xl font-bold mb-2 text-green-800">مقاومة للماء IPX6</h3>
+              <p className="text-lg">
+                تصميم مقاوم للماء بمعيار IPX6 يسمح لك باستخدامها في الحمام أو تحت الدش.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -224,46 +254,46 @@ export default function TrimMasterLanding() {
       {/* Features Section */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">لماذا تريم ماستر هو الحل الأمثل للحلاقة</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center text-green-800">لماذا تريم ماستر هو الحل الأمثل للحلاقة</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-green-50 p-6 rounded-lg">
+            <div className="bg-lime-50 p-6 rounded-lg">
               <div className="flex items-start mb-2">
                 <Check className="text-green-600 w-5 h-5 ml-2 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="font-bold text-lg">بدون فوضى الشعر</h3>
+                  <h3 className="font-bold text-lg">بدون فوضى</h3>
                   <p className="text-gray-600">
-                    نظام الشفط المدمج يضمن أن جميع الشعيرات يتم التقاطها، مما يقلل من فوضى الشعر المتساقط.
+                    نظام الشفط المدمج يضمن التقاط جميع الشعيرات بشكل نظيف، دون ترك فوضى وراءها.
                   </p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-green-50 p-6 rounded-lg">
+            <div className="bg-lime-50 p-6 rounded-lg">
               <div className="flex items-start mb-2">
                 <Check className="text-green-600 w-5 h-5 ml-2 mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="font-bold text-lg">متعددة الاستخدامات</h3>
                   <p className="text-gray-600">
-                    مثالية للحية، الشارب، شعر الرأس وحتى شعر الجسم.
+                    مثالية للحية، الشارب، السوالف وحتى شعر الجسم.
                   </p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-green-50 p-6 rounded-lg">
+            <div className="bg-lime-50 p-6 rounded-lg">
               <div className="flex items-start mb-2">
                 <Check className="text-green-600 w-5 h-5 ml-2 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="font-bold text-lg">متينة وعالية الجودة</h3>
+                  <h3 className="font-bold text-lg">متينة ومقاومة للماء</h3>
                   <p className="text-gray-600">
-                    مصنوعة من مواد عالية الجودة، تناسب أيضاً استخدام رطب أو جاف.
+                    مصنوعة من مواد عالية الجودة، تناسب أيضاً الاستخدام الرطب والجاف.
                   </p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-green-50 p-6 rounded-lg">
+            <div className="bg-lime-50 p-6 rounded-lg">
               <div className="flex items-start mb-2">
                 <Check className="text-green-600 w-5 h-5 ml-2 mt-1 flex-shrink-0" />
                 <div>
@@ -275,13 +305,13 @@ export default function TrimMasterLanding() {
               </div>
             </div>
             
-            <div className="bg-green-50 p-6 rounded-lg">
+            <div className="bg-lime-50 p-6 rounded-lg">
               <div className="flex items-start mb-2">
                 <Check className="text-green-600 w-5 h-5 ml-2 mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="font-bold text-lg">قص متعدد الأطوال</h3>
                   <p className="text-gray-600">
-                    تأتي مع عدة إعدادات طول للحصول على قصة مخصصة حسب رغبتك.
+                    تأتي مع مشطين قابلين للتعديل وإعدادات طول متعددة للحصول على قصة مخصصة.
                   </p>
                 </div>
               </div>
@@ -293,30 +323,30 @@ export default function TrimMasterLanding() {
       {/* Technical Specifications */}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">المواصفات التقنية</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center text-green-800">المواصفات التقنية</h2>
           
           <div className="bg-white rounded-lg shadow-md p-6 max-w-2xl mx-auto">
             <ul className="space-y-4">
               <li className="flex items-center">
-                <div className="bg-green-100 p-2 rounded-full ml-4">
-                  <Battery className="text-green-600 w-5 h-5" />
+                <div className="bg-lime-100 p-2 rounded-full ml-4">
+                  <Settings className="text-green-600 w-5 h-5" />
                 </div>
                 <div>
-                  <span className="font-bold">المواد:</span> بلاستيك عالي الجودة
+                  <span className="font-bold">المواد:</span> ABS + ستانلس ستيل
                 </div>
               </li>
               
               <li className="flex items-center">
-                <div className="bg-green-100 p-2 rounded-full ml-4">
+                <div className="bg-lime-100 p-2 rounded-full ml-4">
                   <Clock className="text-green-600 w-5 h-5" />
                 </div>
                 <div>
-                  <span className="font-bold">وقت الشحن:</span> حتى 2 ساعة
+                  <span className="font-bold">وقت الشحن:</span> حتى ساعتين
                 </div>
               </li>
               
               <li className="flex items-center">
-                <div className="bg-green-100 p-2 rounded-full ml-4">
+                <div className="bg-lime-100 p-2 rounded-full ml-4">
                   <Shield className="text-green-600 w-5 h-5" />
                 </div>
                 <div>
@@ -325,11 +355,11 @@ export default function TrimMasterLanding() {
               </li>
               
               <li className="flex items-center">
-                <div className="bg-green-100 p-2 rounded-full ml-4">
+                <div className="bg-lime-100 p-2 rounded-full ml-4">
                   <Scissors className="text-green-600 w-5 h-5" />
                 </div>
                 <div>
-                  <span className="font-bold">الميزات:</span> ضبط إلكتروني للطول، قص من 1 ملم إلى 20 ملم، شاشة رقمية، مؤشر شحن
+                  <span className="font-bold">الميزات:</span> ضبط إلكتروني للطول، قص رطب، قص جاف، شحن سريع، مؤشر شحن
                 </div>
               </li>
             </ul>
@@ -337,14 +367,59 @@ export default function TrimMasterLanding() {
         </div>
       </section>
       
+      {/* Picture Gallery */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-8 text-center text-green-800">معرض الصور</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <motion.div 
+              className="rounded-lg overflow-hidden shadow-md"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.3 }}
+            >
+              <img 
+                src="/lovable-uploads/36516a49-762c-4a23-80e3-3ab98bd6d0b2.png" 
+                alt="تريم ماستر - القطع الداخلية" 
+                className="w-full h-auto"
+              />
+            </motion.div>
+            
+            <motion.div 
+              className="rounded-lg overflow-hidden shadow-md"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.3 }}
+            >
+              <img 
+                src="/lovable-uploads/60e98e5c-4c44-4f50-b0db-e86b212f1560.png" 
+                alt="تريم ماستر - نظام الشفط" 
+                className="w-full h-auto"
+              />
+            </motion.div>
+            
+            <motion.div 
+              className="rounded-lg overflow-hidden shadow-md"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.3 }}
+            >
+              <img 
+                src="/lovable-uploads/a4c199c0-2d56-4ed3-9d43-02ce0c388be9.png" 
+                alt="تريم ماستر - الشحن" 
+                className="w-full h-auto"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
       {/* Order Form */}
-      <section id="orderForm" className="py-12 bg-white">
+      <section id="orderForm" className="py-12 bg-lime-50">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-10">
             <div className="md:w-1/2">
-              <h2 className="text-2xl font-bold mb-6">اطلب الآن واستفد من العرض الحصري</h2>
+              <h2 className="text-2xl font-bold mb-6 text-green-800">اطلب الآن واستفد من العرض الحصري</h2>
               
-              <div className="bg-green-50 p-6 rounded-lg mb-8">
+              <div className="bg-white p-6 rounded-lg shadow-md mb-8">
                 <div className="flex items-center mb-4">
                   <Truck className="w-6 h-6 text-green-600 ml-3" />
                   <div>
@@ -378,7 +453,7 @@ export default function TrimMasterLanding() {
             
             <div className="md:w-1/2">
               <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-2xl font-bold mb-6 text-center">اطلب الآن</h3>
+                <h3 className="text-2xl font-bold mb-6 text-center text-green-800">اطلب الآن</h3>
                 
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -447,7 +522,7 @@ export default function TrimMasterLanding() {
       <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-2xl font-bold mb-4 md:mb-0">تريم ماستر</div>
+            <div className="text-2xl font-bold mb-4 md:mb-0 text-green-400">تريم ماستر</div>
             <div className="text-sm text-gray-400">
               © 2024 جميع الحقوق محفوظة
             </div>
