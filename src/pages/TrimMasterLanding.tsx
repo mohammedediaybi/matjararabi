@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Star, Check, Truck, Clock, Shield, RefreshCw, Battery, Scissors, DollarSign, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -50,7 +49,6 @@ export default function TrimMasterLanding() {
     setIsSubmitting(true);
     
     try {
-      // Create email content for sending
       const orderData = {
         product: "تريم ماستر - ماكينة حلاقة بنظام الشفط",
         price: "299 ر.س",
@@ -60,28 +58,46 @@ export default function TrimMasterLanding() {
         orderDate: new Date().toISOString(),
       };
       
-      // Send email directly using FormSubmit service
+      console.log("Sending order data:", orderData);
+      
+      const formData = new FormData();
+      formData.append('name', values.name);
+      formData.append('phone', values.phone);
+      formData.append('city', values.city);
+      formData.append('product', "تريم ماستر - ماكينة حلاقة بنظام الشفط");
+      formData.append('price', "299 ر.س");
+      formData.append('_subject', "طلب جديد: تريم ماستر");
+      
+      formData.append('_next', window.location.origin + '/order-confirmation');
+      
       const response = await fetch("https://formsubmit.co/ediaybimohammed@gmail.com", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          name: values.name,
-          phone: values.phone,
-          city: values.city,
-          product: "تريم ماستر - ماكينة حلاقة بنظام الشفط",
-          price: "299 ر.س",
-          _subject: "طلب جديد: تريم ماستر",
-        }),
+        body: formData,
       });
       
       if (!response.ok) {
-        throw new Error("Failed to submit form");
+        const jsonResponse = await fetch("https://formsubmit.co/ajax/ediaybimohammed@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: values.name,
+            phone: values.phone,
+            city: values.city,
+            product: "تريم ماستر - ماكينة حلاقة بنظام الشفط",
+            price: "299 ر.س",
+            _subject: "طلب جديد: تريم ماستر",
+          }),
+        });
+        
+        if (!jsonResponse.ok) {
+          throw new Error("فشلت جميع محاولات إرسال الطلب");
+        }
       }
       
-      // Redirect to the thank you page
+      console.log("Order submitted successfully!");
       navigate('/order-confirmation');
       
     } catch (error) {

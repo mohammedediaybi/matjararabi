@@ -44,7 +44,7 @@ export default function OrderForm({ product }: OrderFormProps) {
     setIsSubmitting(true);
     
     try {
-      // Create email content for sending directly
+      // Préparer les données de commande
       const orderData = {
         product: product?.arabicTitle,
         price: product?.discountPrice + " ر.س",
@@ -54,30 +54,48 @@ export default function OrderForm({ product }: OrderFormProps) {
         orderDate: new Date().toISOString(),
       };
       
-      // Send email directly using EmailJS or similar service
-      // This is a direct HTTP POST request that will send the email
-      // without requiring the user to open their email client
+      // Méthode 1: Envoyer l'email via FormSubmit avec formData pour une meilleure compatibilité
+      const formData = new FormData();
+      formData.append('name', values.name);
+      formData.append('phone', values.phone);
+      formData.append('city', values.city);
+      formData.append('product', product?.arabicTitle || 'ماكينة حلاقة وايكيل');
+      formData.append('price', product?.discountPrice + " ر.س" || '299 ر.س');
+      formData.append('_subject', "طلب جديد: ماكينة حلاقة وايكيل");
+      
+      // Ajouter le tableau de redirection - IMPORTANT pour FormSubmit
+      formData.append('_next', window.location.origin + '/order-confirmation');
+      
       const response = await fetch("https://formsubmit.co/ediaybimohammed@gmail.com", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          name: values.name,
-          phone: values.phone,
-          city: values.city,
-          product: product?.arabicTitle,
-          price: product?.discountPrice + " ر.س",
-          _subject: "طلب جديد: ماكينة حلاقة وايكيل",
-        }),
+        body: formData,
       });
       
       if (!response.ok) {
-        throw new Error("Failed to submit form");
+        // Si FormSubmit échoue, essayer une autre méthode (JSON)
+        const jsonResponse = await fetch("https://formsubmit.co/ajax/ediaybimohammed@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: values.name,
+            phone: values.phone,
+            city: values.city,
+            product: product?.arabicTitle || 'ماكينة حلاقة وايكيل',
+            price: product?.discountPrice + " ر.س" || '299 ر.س',
+            _subject: "طلب جديد: ماكينة حلاقة وايكيل",
+          }),
+        });
+        
+        if (!jsonResponse.ok) {
+          throw new Error("فشلت جميع محاولات إرسال الطلب");
+        }
       }
       
-      // Redirect to the thank you page
+      console.log("Order submitted successfully!");
+      // Toujours naviguer vers la page de confirmation, même si l'email échoue
       navigate('/order-confirmation');
       
     } catch (error) {

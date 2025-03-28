@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { CheckCircle, PhoneCall, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -60,7 +59,7 @@ export default function OrderConfirmation() {
           
           <div className="space-y-4">
             <Button asChild className="bg-green-600 hover:bg-green-700 w-full py-6 text-lg">
-              <Link to="/email-landing">العودة إلى الصفحة الرئيسية</Link>
+              <Link to="/trim-master">العودة إلى الصفحة الرئيسية</Link>
             </Button>
             
             <p className="text-sm text-gray-500">
