@@ -12,8 +12,8 @@ const NotFound = () => {
     );
   }, [location.pathname]);
 
-  // Automatically redirect to landing page
-  return <Navigate to="/email-landing" replace />;
+  // Automatically redirect to trim-master page
+  return <Navigate to="/trim-master" replace />;
 };
 
 export default NotFound;
