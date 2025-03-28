@@ -9,6 +9,7 @@ import OrderConfirmation from "./pages/OrderConfirmation";
 import DownloadJson from "./pages/DownloadJson";
 import NotFound from "./pages/NotFound";
 import ProductTextEditor from "./pages/ProductTextEditor";
+import TrimMasterLanding from "./pages/TrimMasterLanding";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/download-json" element={<DownloadJson />} />
           <Route path="/product-text-editor" element={<ProductTextEditor />} />
+          <Route path="/trim-master" element={<TrimMasterLanding />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
