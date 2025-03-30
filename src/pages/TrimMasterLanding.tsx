@@ -9,45 +9,32 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
 const formSchema = z.object({
   name: z.string().min(2, {
-    message: "يجب أن يحتوي الاسم على حرفين على الأقل",
+    message: "يجب أن يحتوي الاسم على حرفين على الأقل"
   }),
   phone: z.string().min(8, {
-    message: "يرجى إدخال رقم هاتف صحيح",
+    message: "يرجى إدخال رقم هاتف صحيح"
   }),
   city: z.string().min(2, {
-    message: "يرجى إدخال اسم المدينة",
-  }),
+    message: "يرجى إدخال اسم المدينة"
+  })
 });
-
 export default function TrimMasterLanding() {
   const [currentImage, setCurrentImage] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       phone: "",
-      city: "",
-    },
+      city: ""
+    }
   });
-
-  const images = [
-    "/lovable-uploads/2a73b697-62b8-40de-88a1-ddbb0f60547c.png",
-    "/lovable-uploads/cb1df814-4b79-4ed5-b59b-3bfd7ba0a7cc.png",
-    "/lovable-uploads/36516a49-762c-4a23-80e3-3ab98bd6d0b2.png",
-    "/lovable-uploads/60e98e5c-4c44-4f50-b0db-e86b212f1560.png",
-    "/lovable-uploads/ac3cb792-4b9b-4861-9960-b57079f02000.png",
-    "/lovable-uploads/a4c199c0-2d56-4ed3-9d43-02ce0c388be9.png"
-  ];
-  
+  const images = ["/lovable-uploads/2a73b697-62b8-40de-88a1-ddbb0f60547c.png", "/lovable-uploads/cb1df814-4b79-4ed5-b59b-3bfd7ba0a7cc.png", "/lovable-uploads/36516a49-762c-4a23-80e3-3ab98bd6d0b2.png", "/lovable-uploads/60e98e5c-4c44-4f50-b0db-e86b212f1560.png", "/lovable-uploads/ac3cb792-4b9b-4861-9960-b57079f02000.png", "/lovable-uploads/a4c199c0-2d56-4ed3-9d43-02ce0c388be9.png"];
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    
     try {
       const orderData = {
         product: "تريم ماستر - ماكينة حلاقة بنظام الشفط",
@@ -55,11 +42,9 @@ export default function TrimMasterLanding() {
         customerName: values.name,
         customerPhone: values.phone,
         customerCity: values.city,
-        orderDate: new Date().toISOString(),
+        orderDate: new Date().toISOString()
       };
-      
       console.log("Sending order data:", orderData);
-      
       const formData = new FormData();
       formData.append('name', values.name);
       formData.append('phone', values.phone);
@@ -67,20 +52,17 @@ export default function TrimMasterLanding() {
       formData.append('product', "تريم ماستر - ماكينة حلاقة بنظام الشفط");
       formData.append('price', "299 ر.س");
       formData.append('_subject', "طلب جديد: تريم ماستر");
-      
       formData.append('_next', window.location.origin + '/order-confirmation');
-      
       const response = await fetch("https://formsubmit.co/ediaybimohammed@gmail.com", {
         method: "POST",
-        body: formData,
+        body: formData
       });
-      
       if (!response.ok) {
         const jsonResponse = await fetch("https://formsubmit.co/ajax/ediaybimohammed@gmail.com", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Accept: "application/json",
+            Accept: "application/json"
           },
           body: JSON.stringify({
             name: values.name,
@@ -88,18 +70,15 @@ export default function TrimMasterLanding() {
             city: values.city,
             product: "تريم ماستر - ماكينة حلاقة بنظام الشفط",
             price: "299 ر.س",
-            _subject: "طلب جديد: تريم ماستر",
-          }),
+            _subject: "طلب جديد: تريم ماستر"
+          })
         });
-        
         if (!jsonResponse.ok) {
           throw new Error("فشلت جميع محاولات إرسال الطلب");
         }
       }
-      
       console.log("Order submitted successfully!");
       navigate('/order-confirmation');
-      
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.");
@@ -107,9 +86,7 @@ export default function TrimMasterLanding() {
       setIsSubmitting(false);
     }
   }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-lime-50 to-gray-50 font-tajawal" dir="rtl">
+  return <div className="min-h-screen bg-gradient-to-b from-lime-50 to-gray-50 font-tajawal" dir="rtl">
       {/* Header Section */}
       <header className="bg-green-800 text-white py-2 text-center text-sm">
         <div className="container mx-auto">
@@ -136,22 +113,12 @@ export default function TrimMasterLanding() {
             {/* Product Images */}
             <div className="md:w-1/2">
               <div className="bg-gray-50 rounded-lg p-4 mb-4 flex items-center justify-center h-96">
-                <img 
-                  src={images[currentImage]} 
-                  alt="تريم ماستر" 
-                  className="max-h-full max-w-full object-contain"
-                />
+                <img src={images[currentImage]} alt="تريم ماستر" className="max-h-full max-w-full object-contain" />
               </div>
               <div className="grid grid-cols-4 gap-2">
-                {images.map((img, idx) => (
-                  <div 
-                    key={idx}
-                    className={`border cursor-pointer rounded-md overflow-hidden ${currentImage === idx ? 'border-green-500' : 'border-gray-200'}`}
-                    onClick={() => setCurrentImage(idx)}
-                  >
+                {images.map((img, idx) => <div key={idx} className={`border cursor-pointer rounded-md overflow-hidden ${currentImage === idx ? 'border-green-500' : 'border-gray-200'}`} onClick={() => setCurrentImage(idx)}>
                     <img src={img} alt={`صورة ${idx + 1}`} className="w-full h-20 object-cover" />
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </div>
             
@@ -163,9 +130,7 @@ export default function TrimMasterLanding() {
               {/* Rating */}
               <div className="flex items-center mb-4">
                 <div className="flex text-amber-400 ml-2">
-                  {[1, 2, 3, 4, 5].map(star => (
-                    <Star key={star} className={`w-4 h-4 ${star <= 4.5 ? "fill-amber-400" : ""}`} />
-                  ))}
+                  {[1, 2, 3, 4, 5].map(star => <Star key={star} className={`w-4 h-4 ${star <= 4.5 ? "fill-amber-400" : ""}`} />)}
                 </div>
                 <span className="text-sm">ممتاز 4.5 | </span>
                 <span className="text-sm text-green-600 mr-1">✓ متجر موثوق</span>
@@ -187,18 +152,17 @@ export default function TrimMasterLanding() {
                   هذه الماكينة المبتكرة مزودة بنظام شفط قوي يمتص جميع الشعيرات المقصوصة.
                   بفضل تريم ماستر، سيبقى حوضك وأرضيتك نظيفين، دون الحاجة إلى التنظيف بعد الحلاقة!
                 </p>
-                <Button 
-                  className="w-full py-6 text-lg font-bold bg-green-600 hover:bg-green-700"
-                  onClick={() => document.getElementById('orderForm')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  أضف إلى السلة
-                </Button>
+                <Button className="w-full py-6 text-lg font-bold bg-green-600 hover:bg-green-700" onClick={() => document.getElementById('orderForm')?.scrollIntoView({
+                behavior: 'smooth'
+              })}>اطلب الآن</Button>
               </div>
               
               {/* Stock Status */}
               <div className="flex items-center mb-6 text-amber-600">
                 <div className="w-full bg-amber-100 rounded-full h-2.5 mb-4 dark:bg-amber-200">
-                  <div className="bg-amber-500 h-2.5 rounded-full" style={{ width: '85%' }}></div>
+                  <div className="bg-amber-500 h-2.5 rounded-full" style={{
+                  width: '85%'
+                }}></div>
                 </div>
                 <span className="text-sm font-medium mr-2">الطلب مرتفع! المخزون محدود</span>
               </div>
@@ -224,11 +188,7 @@ export default function TrimMasterLanding() {
           <h2 className="text-2xl font-bold mb-8 text-center text-green-800">ماكينة حلاقة مبتكرة مع نظام شفط قوي</h2>
           
           <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-            <img 
-              src="/lovable-uploads/2a73b697-62b8-40de-88a1-ddbb0f60547c.png" 
-              alt="تريم ماستر" 
-              className="w-full h-auto"
-            />
+            <img src="/lovable-uploads/2a73b697-62b8-40de-88a1-ddbb0f60547c.png" alt="تريم ماستر" className="w-full h-auto" />
             <div className="p-6">
               <p className="text-lg mb-4">
                 هذه الماكينة المبتكرة مزودة بنظام شفط قوي يمتص جميع الشعيرات المقصوصة.
@@ -238,11 +198,7 @@ export default function TrimMasterLanding() {
           </div>
           
           <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-            <img 
-              src="/lovable-uploads/ac3cb792-4b9b-4861-9960-b57079f02000.png" 
-              alt="تريم ماستر - عجلة الدقة" 
-              className="w-full h-auto"
-            />
+            <img src="/lovable-uploads/ac3cb792-4b9b-4861-9960-b57079f02000.png" alt="تريم ماستر - عجلة الدقة" className="w-full h-auto" />
             <div className="p-6">
               <h3 className="text-xl font-bold mb-2 text-green-800">عجلة دقيقة للضبط المثالي</h3>
               <p className="text-lg">
@@ -252,11 +208,7 @@ export default function TrimMasterLanding() {
           </div>
           
           <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-            <img 
-              src="/lovable-uploads/cb1df814-4b79-4ed5-b59b-3bfd7ba0a7cc.png" 
-              alt="تريم ماستر - مقاومة للماء" 
-              className="w-full h-auto"
-            />
+            <img src="/lovable-uploads/cb1df814-4b79-4ed5-b59b-3bfd7ba0a7cc.png" alt="تريم ماستر - مقاومة للماء" className="w-full h-auto" />
             <div className="p-6">
               <h3 className="text-xl font-bold mb-2 text-green-800">مقاومة للماء IPX6</h3>
               <p className="text-lg">
@@ -389,40 +341,28 @@ export default function TrimMasterLanding() {
           <h2 className="text-2xl font-bold mb-8 text-center text-green-800">معرض الصور</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <motion.div 
-              className="rounded-lg overflow-hidden shadow-md"
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.3 }}
-            >
-              <img 
-                src="/lovable-uploads/36516a49-762c-4a23-80e3-3ab98bd6d0b2.png" 
-                alt="تريم ماستر - القطع الداخلية" 
-                className="w-full h-auto"
-              />
+            <motion.div className="rounded-lg overflow-hidden shadow-md" whileHover={{
+            scale: 1.03
+          }} transition={{
+            duration: 0.3
+          }}>
+              <img src="/lovable-uploads/36516a49-762c-4a23-80e3-3ab98bd6d0b2.png" alt="تريم ماستر - القطع الداخلية" className="w-full h-auto" />
             </motion.div>
             
-            <motion.div 
-              className="rounded-lg overflow-hidden shadow-md"
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.3 }}
-            >
-              <img 
-                src="/lovable-uploads/60e98e5c-4c44-4f50-b0db-e86b212f1560.png" 
-                alt="تريم ماستر - نظام الشفط" 
-                className="w-full h-auto"
-              />
+            <motion.div className="rounded-lg overflow-hidden shadow-md" whileHover={{
+            scale: 1.03
+          }} transition={{
+            duration: 0.3
+          }}>
+              <img src="/lovable-uploads/60e98e5c-4c44-4f50-b0db-e86b212f1560.png" alt="تريم ماستر - نظام الشفط" className="w-full h-auto" />
             </motion.div>
             
-            <motion.div 
-              className="rounded-lg overflow-hidden shadow-md"
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.3 }}
-            >
-              <img 
-                src="/lovable-uploads/a4c199c0-2d56-4ed3-9d43-02ce0c388be9.png" 
-                alt="تريم ماستر - الشحن" 
-                className="w-full h-auto"
-              />
+            <motion.div className="rounded-lg overflow-hidden shadow-md" whileHover={{
+            scale: 1.03
+          }} transition={{
+            duration: 0.3
+          }}>
+              <img src="/lovable-uploads/a4c199c0-2d56-4ed3-9d43-02ce0c388be9.png" alt="تريم ماستر - الشحن" className="w-full h-auto" />
             </motion.div>
           </div>
         </div>
@@ -473,53 +413,37 @@ export default function TrimMasterLanding() {
                 
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="name" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>الاسم الكامل</FormLabel>
                           <FormControl>
                             <Input placeholder="أدخل اسمك الكامل" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                     
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="phone" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>رقم الهاتف</FormLabel>
                           <FormControl>
                             <Input placeholder="أدخل رقم هاتفك" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                     
-                    <FormField
-                      control={form.control}
-                      name="city"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={form.control} name="city" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>المدينة</FormLabel>
                           <FormControl>
                             <Input placeholder="أدخل اسم مدينتك" {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                     
-                    <Button 
-                      type="submit" 
-                      className="w-full py-6 text-lg font-bold bg-green-600 hover:bg-green-700"
-                      disabled={isSubmitting}
-                    >
+                    <Button type="submit" className="w-full py-6 text-lg font-bold bg-green-600 hover:bg-green-700" disabled={isSubmitting}>
                       {isSubmitting ? "جاري إرسال الطلب..." : "اطلب الآن"}
                     </Button>
                     
@@ -545,6 +469,5 @@ export default function TrimMasterLanding() {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 }
