@@ -171,10 +171,8 @@ export default function TrimMasterLanding() {
               <div className="flex items-center justify-between mb-6">
                 <div className="text-xs text-gray-500">طرق الدفع المتاحة</div>
                 <div className="flex space-x-2 space-x-reverse">
-                  <div className="flex items-center justify-center h-6 w-10 bg-gray-200 rounded text-xs">
-                    <DollarSign className="w-4 h-4" />
-                  </div>
-                  <div className="h-6 w-10 bg-gray-200 rounded flex items-center justify-center text-xs">COD</div>
+                  
+                  <div className="h-6 w-10 bg-gray-200 flex items-center justify-center text-xs rounded-md">COD</div>
                 </div>
               </div>
             </div>
