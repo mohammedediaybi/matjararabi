@@ -168,13 +168,7 @@ export default function TrimMasterLanding() {
               </div>
               
               {/* Payment Methods */}
-              <div className="flex items-center justify-between mb-6">
-                <div className="text-xs text-gray-500">طرق الدفع المتاحة</div>
-                <div className="flex space-x-2 space-x-reverse">
-                  
-                  <div className="h-6 w-10 bg-gray-200 rounded flex items-center justify-center text-xs">COD</div>
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>
